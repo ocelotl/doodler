@@ -8,6 +8,8 @@ authors = ["Diego Hurtado <diegohurtado@gmail.com>"]
 python = "^3.6"
 numpy = "^1.16"
 ipdb = "^0.12.0"
+toml = "^0.10.0"
+ndjson = "^0.1.0"
 
 [tool.poetry.dev-dependencies]
 
