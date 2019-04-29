@@ -11,6 +11,8 @@ ipdb = "^0.12.0"
 toml = "^0.10.0"
 ndjson = "^0.1.0"
 matplotlib = "^3.0"
+imageio = "^2.5"
+tensorflow-gpu = "2.0.0a0"
 
 [tool.poetry.dev-dependencies]
 
