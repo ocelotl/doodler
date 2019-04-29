@@ -14,6 +14,10 @@ from IPython import display
 # "could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR" error that is
 # apparently caused by insufficient pre-allocated memory. A different
 # CUDA_ERROR_OUT_OF_MEMORY shows up now but the code runs still (shrugs).
+
+# This example is taken from here:
+# https://github.com/tensorflow/docs/blob/
+# master/site/en/r2/tutorials/generative/dcgan.ipynb
 tf.config.gpu.set_per_process_memory_growth(True)
 
 (train_images, train_labels), (_, _) = tf.keras.datasets.mnist.load_data()
