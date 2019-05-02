@@ -1,5 +1,5 @@
 import IPython
-from ipdb import set_trace
+# from ipdb import set_trace
 import tensorflow as tf
 import glob
 import imageio
@@ -242,8 +242,6 @@ def train_step(images):
 
         # generated_images has a shape of [256, 28, 28, 1]
 
-        set_trace()
-
         # FIXME what does training do?
 
         # real_output and fake_output are logit tensors, their values are real
@@ -292,6 +290,10 @@ def train_step(images):
         # real images as real and fake images as fake.
         disc_loss = real_loss + fake_loss
 
+    print('generator loss: {}'.format(gen_loss))
+    print('real loss: {}'.format(real_loss))
+    print('fake loss: {}'.format(fake_loss))
+
     gradients_of_generator = gen_tape.gradient(
         gen_loss, generator.trainable_variables
     )
@@ -316,22 +318,19 @@ def train(dataset, epochs):
 
         # Produce images for the GIF as we go
         display.clear_output(wait=True)
-        generate_and_save_images(generator,
-                                 epoch + 1,
-                                 seed)
+        generate_and_save_images(generator, epoch + 1, seed)
 
         # Save the model every 15 epochs
         if (epoch + 1) % 15 == 0:
             checkpoint.save(file_prefix=checkpoint_prefix)
 
         print('Time for epoch {} is {} sec'.format(
-            epoch + 1, time.time()-start))
+            epoch + 1, time.time() - start)
+        )
 
     # Generate after the final epoch
     display.clear_output(wait=True)
-    generate_and_save_images(generator,
-                             epochs,
-                             seed)
+    generate_and_save_images(generator, epochs, seed)
 
 
 def generate_and_save_images(model, epoch, test_input):
@@ -345,7 +344,12 @@ def generate_and_save_images(model, epoch, test_input):
         plt.axis('off')
 
     plt.savefig('image_at_epoch_{:04d}.png'.format(epoch))
-    plt.show()
+
+    # This is done to make the image being shown not stop the whole program
+    # execution.
+    plt.show(block=False)
+    plt.pause(1)
+    plt.close()
 
 
 train(train_dataset, EPOCHS)
@@ -360,7 +364,6 @@ def display_image(epoch_no):
 
 display_image(EPOCHS)
 
-
 anim_file = 'dcgan.gif'
 
 with imageio.get_writer(anim_file, mode='I') as writer:
@@ -368,7 +371,7 @@ with imageio.get_writer(anim_file, mode='I') as writer:
     filenames = sorted(filenames)
     last = -1
     for i, filename in enumerate(filenames):
-        frame = 2*(i**0.5)
+        frame = 2 * (i ** 0.5)
         if round(frame) > round(last):
             last = frame
         else:
